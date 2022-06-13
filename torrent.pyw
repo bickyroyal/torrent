@@ -1,6 +1,7 @@
 from app import BaseApp, Movie
 import requests
 
+
 class Torrent(BaseApp):
     def search(self, query: str) -> dict[str, Movie]:
         try:
@@ -9,9 +10,11 @@ class Torrent(BaseApp):
         except KeyError:
             return {}
         return {str(movie["id"]): movie for movie in movies if movie["torrents"]}
-    
+
     def download(self, movie: Movie) -> bool:
-        torrent = sorted(movie["torrents"], key=lambda t: (t["type"] == "bluray", t["quality"] == "1080p"))[-1]       
+        movie["torrents"].sort(
+            key=lambda t: (t["type"] == "bluray", t["quality"] == "1080p"))
+        torrent = movie["torrents"][0]
         filename = f"{movie['slug']}.torrent"
         data = requests.get(torrent["url"]).content
         with open(filename, "wb") as outfile:

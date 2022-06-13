@@ -16,7 +16,7 @@ def archive(source):
 
     if (len(videos) != 1):
         return
-    
+
     video = videos[0]
     shutil.move(video, DESTINATION / video.name)
 
@@ -26,11 +26,10 @@ def archive(source):
 
     for subtitle in subtitles:
         shutil.move(subtitle, DESTINATION / f"{video.stem}--{subtitle.name}")
-    
+
     shutil.rmtree(source)
-    
+
 
 if __name__ == "__main__":
     import sys
     archive(sys.argv[1])
-        

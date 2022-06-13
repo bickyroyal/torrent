@@ -11,7 +11,7 @@ class Movie(TypedDict):
 
 class BaseApp(ABC, Tk):
     _movies: dict[str, Movie] = {}
-    
+
     @abstractmethod
     def search(self, query: str) -> dict[str, Movie]:
         pass
@@ -28,7 +28,8 @@ class BaseApp(ABC, Tk):
         self._searchbar = ttk.Entry(self)
         self._searchbar.pack(fill=X, expand=True, padx=8, pady=8)
 
-        self._tree = ttk.Treeview(self, columns=("title", "year"), show="tree", selectmode="browse")
+        self._tree = ttk.Treeview(self, columns=(
+            "title", "year"), show="tree", selectmode="browse")
         self._tree.pack(fill=BOTH, expand=True, padx=8, pady=(0, 8))
         self._tree.column("#0", width=0, stretch=False)
         self._tree.column("year", width=64, stretch=False, anchor=CENTER)
@@ -55,7 +56,7 @@ class BaseApp(ABC, Tk):
         else:
             self._searchbar.select_range(0, END)
             self._searchbar.focus_set()
-    
+
     def _download(self, _):
         try:
             selected = self._tree.selection()[0]
